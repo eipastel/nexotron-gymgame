@@ -10,29 +10,44 @@
 
   <!-- Favicon -->
   <link rel="shortcut icon" href="src/imgs/favicon-logo-nexotron.ico" type="image/x-icon">
-  <title>Gym Game</title>
+  <title>Login</title>
 </head>
 
 <body>
   <h1>Gym Game</h1>
 
-  <!-- Seção adicionar tarefa -->
-  <div class="content">
-    <div class="content-add-task">
-      <input type="text" id="input-new-task" placeholder="Digite sua nova tarefa">
-      <button id="btn-new-task" onclick="addTask()" title="Adicione uma nova tarefa clicando aqui">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
-          <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
-        </svg>
-      </button>
+  <div class='container'>
+    <div class='card'>
+      <h1> Entrar </h1>
+      
+      <div id='msgError'></div>
+      
+      <div class='label-float'>
+        <input type='text' id='usuario' paceholder='' required>
+        <label id='userLabel' for='usuario'>Usuario</label>
+      </div>
+      
+      <div class='label-float'>
+        <input type='password' id='senha' paceholder='' required>
+        <label id='senhaLabel' for='senha'>Senha</label>
+        <i class="fa fa-eye" aria-hidden="true"></i>
+      </div>
+      
+      <div class='justify-center'>
+        <button onclick='entrar()'>Entrar</button>
+      </div>
+      
+      <div class='justify-center'>
+        <hr>
+      </div>
+      
+      <p> Não tem uma conta?
+        <a href='src/pages/register-page.html'> Cadastre-se </a>
+      </p>
+      
+    </div>
     </div>
 
-    <!-- Lista de tarefas -->
-    <div class="content-tasks">
-      <ul id="task-list"></ul>
-    </div>
-  </div>
-
-</body>
-<script src="src/script/script.js"></script>
+  <script src="src/script/script.js"></script>
+  </body>
 </html>

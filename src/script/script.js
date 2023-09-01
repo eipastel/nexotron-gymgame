@@ -1,74 +1,61 @@
-// Criando a chave do local storage
-const localStorageKey = 'nexotron-list-tasks'
+let btn = document.querySelector('.fa-eye')
 
-// Verificando se a tarefa já existe
-function isUnique() {
-  // Pegando os valores da tarefa do local storage e do input
-  let values = JSON.parse(localStorage.getItem(localStorageKey) || "[]")
-  const newTask = document.getElementById('input-new-task')
-  const newTaskValue = newTask.value
-  let isUnique = values.find(task => task.name == newTaskValue)
-
-  // Se não existe, retorna false, caso contrário, true.
-  return !isUnique ? false : true
-}
-
-function addTask() {
-  const newTask = document.getElementById('input-new-task')
-  const newTaskValue = newTask.value
-
-  // Validação se há tarefa 
-  if(!newTaskValue) {
-    alert("É necessário digitar a tarefa!")
-  } else if(isUnique()) {
-    alert("Essa tarefa já existe!")
+btn.addEventListener('click', ()=>{
+  let inputSenha = document.querySelector('#senha')
+  
+  if(inputSenha.getAttribute('type') == 'password'){
+    inputSenha.setAttribute('type', 'text')
   } else {
-    // Incrementando no local storage
-
-    // Validando e transformando tarefas em array.
-    let values = JSON.parse(localStorage.getItem(localStorageKey) || "[]")
-    values.push({
-      name: newTaskValue
-    })
-    localStorage.setItem(localStorageKey, JSON.stringify(values))
-
-    //Atualizando na tela os itens atuais
-    showNewTasks()
+    inputSenha.setAttribute('type', 'password')
   }
+})
 
-  // Limpando o valor do input após clicar no botão
-  newTask.value = ""
-}
-
-function showNewTasks() {
-  // Definindo qual tarefa a ser adicionada
-  let values = JSON.parse(localStorage.getItem(localStorageKey) || "[]")
-
-  // Identificando e resetando a lista para não mostrar duplicado
-  const listOfTasks = document.getElementById('task-list')
-  listOfTasks.innerHTML = ''
-
-  // Mostrando a tarefa no documento
-  for(let listIndex = 0; listIndex < values.length; listIndex++) {
-    // Ícone de check como SVG do Bootstrap
-    listOfTasks.innerHTML += `<li>${values[listIndex]['name']}<button id="btn-ok" onclick='finishTask("${values[listIndex]['name']}")'><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
-    <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z"/>
-  </svg></button></li>`
+function entrar(){
+  let usuario = document.querySelector('#usuario')
+  let userLabel = document.querySelector('#userLabel')
+  
+  let senha = document.querySelector('#senha')
+  let senhaLabel = document.querySelector('#senhaLabel')
+  
+  let msgError = document.querySelector('#msgError')
+  let listaUser = []
+  
+  let userValid = {
+    nome: '',
+    user: '',
+    senha: ''
   }
+  
+  listaUser = JSON.parse(localStorage.getItem('listaUser'))
+  
+  listaUser.forEach((item) => {
+    if(usuario.value == item.userCad && senha.value == item.senhaCad){
+       
+      userValid = {
+         nome: item.nomeCad,
+         user: item.userCad,
+         senha: item.senhaCad
+       }
+      
+    }
+  })
+   
+  if(usuario.value == userValid.user && senha.value == userValid.senha){
+    window.location.href = '../pages/main-page.html'
+    
+    let mathRandom = Math.random().toString(16).substr(2)
+    let token = mathRandom + mathRandom
+    
+    localStorage.setItem('token', token)
+    localStorage.setItem('userLogado', JSON.stringify(userValid))
+  } else {
+    userLabel.setAttribute('style', 'color: red')
+    usuario.setAttribute('style', 'border-color: red')
+    senhaLabel.setAttribute('style', 'color: red')
+    senha.setAttribute('style', 'border-color: red')
+    msgError.setAttribute('style', 'display: block')
+    msgError.innerHTML = 'Usuário ou senha incorretos'
+    usuario.focus()
+  }
+  
 }
-
-function finishTask(task) {
-  // Procurando o índice da tarefa a ser removida
-  let values = JSON.parse(localStorage.getItem(localStorageKey) || "[]")
-  let taskIndex = values.findIndex(taskToRemove => taskToRemove.name == task)
-
-  // Deletando a tarefa do local storage
-  values.splice(taskIndex, 1)
-  localStorage.setItem(localStorageKey, JSON.stringify(values))
-
-  // Atualizando na tela os itens atuais
-  showNewTasks()
-}
-
-// Mostrando de começo as tarefas existentes.
-showNewTasks()
