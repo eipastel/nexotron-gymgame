@@ -1,61 +1,61 @@
-let btn = document.querySelector('.fa-eye')
+let showPasswordBtn = document.querySelector('.fa-eye')
 
-btn.addEventListener('click', ()=>{
-  let inputSenha = document.querySelector('#senha')
+showPasswordBtn.addEventListener('click', ()=>{
+  let inputPassword = document.querySelector('#password')
   
-  if(inputSenha.getAttribute('type') == 'password'){
-    inputSenha.setAttribute('type', 'text')
+  if(inputPassword.getAttribute('type') == 'password'){
+    inputPassword.setAttribute('type', 'text')
   } else {
-    inputSenha.setAttribute('type', 'password')
+    inputPassword.setAttribute('type', 'password')
   }
 })
 
-function entrar(){
-  let usuario = document.querySelector('#usuario')
-  let userLabel = document.querySelector('#userLabel')
+function login(){
+  let username = document.querySelector('#username')
+  let usernameLabel = document.querySelector('#usernameLabel')
   
-  let senha = document.querySelector('#senha')
-  let senhaLabel = document.querySelector('#senhaLabel')
+  let password = document.querySelector('#password')
+  let passwordLabel = document.querySelector('#passwordLabel')
   
   let msgError = document.querySelector('#msgError')
-  let listaUser = []
+  let userList = []
   
-  let userValid = {
-    nome: '',
-    user: '',
-    senha: ''
+  let validUser = {
+    name: '',
+    username: '',
+    password: ''
   }
   
-  listaUser = JSON.parse(localStorage.getItem('listaUser'))
+  userList = JSON.parse(localStorage.getItem('userList'))
   
-  listaUser.forEach((item) => {
-    if(usuario.value == item.userCad && senha.value == item.senhaCad){
+  userList.forEach((item) => {
+    if(username.value == item.usernameData && password.value == item.passwordData){
        
-      userValid = {
-         nome: item.nomeCad,
-         user: item.userCad,
-         senha: item.senhaCad
+      validUser = {
+         name: item.nameData,
+         username: item.usernameData,
+         password: item.passwordData
        }
       
     }
   })
    
-  if(usuario.value == userValid.user && senha.value == userValid.senha){
-    window.location.href = '../pages/main-page.html'
+  if(username.value == validUser.username && password.value == validUser.password){
+    window.location.href = 'src/pages/main-page.html'
     
     let mathRandom = Math.random().toString(16).substr(2)
     let token = mathRandom + mathRandom
     
     localStorage.setItem('token', token)
-    localStorage.setItem('userLogado', JSON.stringify(userValid))
+    localStorage.setItem('loggedUser', JSON.stringify(validUser))
   } else {
-    userLabel.setAttribute('style', 'color: red')
-    usuario.setAttribute('style', 'border-color: red')
-    senhaLabel.setAttribute('style', 'color: red')
-    senha.setAttribute('style', 'border-color: red')
+    usernameLabel.setAttribute('style', 'color: red')
+    user.setAttribute('style', 'border-color: red')
+    passwordLabel.setAttribute('style', 'color: red')
+    password.setAttribute('style', 'border-color: red')
     msgError.setAttribute('style', 'display: block')
     msgError.innerHTML = 'Usuário ou senha incorretos'
-    usuario.focus()
+    user.focus()
   }
   
 }

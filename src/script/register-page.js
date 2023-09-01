@@ -1,95 +1,94 @@
-let btn = document.querySelector('#verSenha')
-let btnConfirm = document.querySelector('#verConfirmSenha')
+let btn = document.querySelector('#seePassword')
+let btnConfirm = document.querySelector('#seeConfirmPassword')
 
+let user = document.querySelector('#user')
+let labelUser = document.querySelector('#labelUser')
+let validUser = false
 
-let nome = document.querySelector('#nome')
-let labelNome = document.querySelector('#labelNome')
-let validNome = false
+let username = document.querySelector('#username')
+let labelUsername = document.querySelector('#labelUsername')
+let validUsername = false
 
-let usuario = document.querySelector('#usuario')
-let labelUsuario = document.querySelector('#labelUsuario')
-let validUsuario = false
+let password = document.querySelector('#password')
+let labelPassword = document.querySelector('#labelPassword')
+let validPassword = false
 
-let senha = document.querySelector('#senha')
-let labelSenha = document.querySelector('#labelSenha')
-let validSenha = false
-
-let confirmSenha = document.querySelector('#confirmSenha')
-let labelConfirmSenha = document.querySelector('#labelConfirmSenha')
-let validConfirmSenha = false
+let confirmPassword = document.querySelector('#confirmPassword')
+let labelConfirmPassword = document.querySelector('#labelConfirmPassword')
+let validConfirmPassword = false
 
 let msgError = document.querySelector('#msgError')
 let msgSuccess = document.querySelector('#msgSuccess')
 
-nome.addEventListener('keyup', () => {
-  if(nome.value.length <= 2){
-    labelNome.setAttribute('style', 'color: red')
-    labelNome.innerHTML = 'Nome *Insira no minimo 3 caracteres'
-    nome.setAttribute('style', 'border-color: red')
-    validNome = false
+user.addEventListener('keyup', () => {
+  if(user.value.length <= 2){
+    labelUser.setAttribute('style', 'color: red')
+    labelUser.innerHTML = 'Nome *Insira no minimo 3 caracteres'
+    user.setAttribute('style', 'border-color: red')
+    validUser = false
   } else {
-    labelNome.setAttribute('style', 'color: green')
-    labelNome.innerHTML = 'Nome'
-    nome.setAttribute('style', 'border-color: green')
-    validNome = true
+    labelUser.setAttribute('style', 'color: green')
+    labelUser.innerHTML = 'Nome'
+    user.setAttribute('style', 'border-color: green')
+    validUser = true
   }
 })
 
-usuario.addEventListener('keyup', () => {
-  if(usuario.value.length <= 4){
-    labelUsuario.setAttribute('style', 'color: red')
-    labelUsuario.innerHTML = 'Usuário *Insira no minimo 5 caracteres'
-    usuario.setAttribute('style', 'border-color: red')
-    validUsuario = false
+username.addEventListener('keyup', () => {
+  if(username.value.length <= 4){
+    labelUsername.setAttribute('style', 'color: red')
+    labelUsername.innerHTML = 'Usuário *Insira no minimo 5 caracteres'
+    username.setAttribute('style', 'border-color: red')
+    validUsername = false
   } else {
-    labelUsuario.setAttribute('style', 'color: green')
-    labelUsuario.innerHTML = 'Usuário'
-    usuario.setAttribute('style', 'border-color: green')
-    validUsuario = true
+    labelUsername.setAttribute('style', 'color: green')
+    labelUsername.innerHTML = 'Usuário'
+    username.setAttribute('style', 'border-color: green')
+    validUsername = true
   }
 })
 
-senha.addEventListener('keyup', () => {
-  if(senha.value.length <= 5){
-    labelSenha.setAttribute('style', 'color: red')
-    labelSenha.innerHTML = 'Senha *Insira no minimo 6 caracteres'
-    senha.setAttribute('style', 'border-color: red')
-    validSenha = false
+password.addEventListener('keyup', () => {
+  if(password.value.length <= 5){
+    labelPassword.setAttribute('style', 'color: red')
+    labelPassword.innerHTML = 'Senha *Insira no minimo 6 caracteres'
+    password.setAttribute('style', 'border-color: red')
+    validPassword = false
   } else {
-    labelSenha.setAttribute('style', 'color: green')
-    labelSenha.innerHTML = 'Senha'
-    senha.setAttribute('style', 'border-color: green')
-    validSenha = true
+    labelPassword.setAttribute('style', 'color: green')
+    labelPassword.innerHTML = 'Senha'
+    password.setAttribute('style', 'border-color: green')
+    validPassword = true
   }
 })
 
-confirmSenha.addEventListener('keyup', () => {
-  if(senha.value != confirmSenha.value){
-    labelConfirmSenha.setAttribute('style', 'color: red')
-    labelConfirmSenha.innerHTML = 'Confirmar Senha *As senhas não conferem'
-    confirmSenha.setAttribute('style', 'border-color: red')
-    validConfirmSenha = false
+confirmPassword.addEventListener('keyup', () => {
+  if(password.value != confirmPassword.value){
+    labelConfirmPassword.setAttribute('style', 'color: red')
+    labelConfirmPassword.innerHTML = 'Confirmar Senha *As senhas não conferem'
+    confirmPassword.setAttribute('style', 'border-color: red')
+    validConfirmPassword = false
   } else {
-    labelConfirmSenha.setAttribute('style', 'color: green')
-    labelConfirmSenha.innerHTML = 'Confirmar Senha'
-    confirmSenha.setAttribute('style', 'border-color: green')
-    validConfirmSenha = true
+    labelConfirmPassword.setAttribute('style', 'color: green')
+    labelConfirmPassword.innerHTML = 'Confirmar Senha'
+    confirmPassword.setAttribute('style', 'border-color: green')
+    validConfirmPassword = true
   }
 })
 
-function cadastrar(){
-  if(validNome && validUsuario && validSenha && validConfirmSenha){
-    let listaUser = JSON.parse(localStorage.getItem('listaUser') || '[]')
+function register(){
+  if(validUser && validUsername && validPassword && validConfirmPassword){
+    let userList = JSON.parse(localStorage.getItem('userList') || '[]')
     
-    listaUser.push(
+   userList.push(
     {
-      nomeCad: nome.value,
-      userCad: usuario.value,
-      senhaCad: senha.value
+      nameData: user.value,
+      usernameData: username.value,
+      passwordData: password.value
     }
     )
     
-    localStorage.setItem('listaUser', JSON.stringify(listaUser))
+    localStorage.setItem('userList', JSON.stringify(userList))
     
    
     msgSuccess.setAttribute('style', 'display: block')
@@ -111,21 +110,21 @@ function cadastrar(){
 }
 
 btn.addEventListener('click', ()=>{
-  let inputSenha = document.querySelector('#senha')
+  let seePassword = document.querySelector('#password')
   
-  if(inputSenha.getAttribute('type') == 'password'){
-    inputSenha.setAttribute('type', 'text')
+  if(seePassword.getAttribute('type') == 'password'){
+    seePassword.setAttribute('type', 'text')
   } else {
-    inputSenha.setAttribute('type', 'password')
+    seePassword.setAttribute('type', 'password')
   }
 })
 
 btnConfirm.addEventListener('click', ()=>{
-  let inputConfirmSenha = document.querySelector('#confirmSenha')
+  let seeConfirmPassword = document.querySelector('#confirmSenha')
   
-  if(inputConfirmSenha.getAttribute('type') == 'password'){
-    inputConfirmSenha.setAttribute('type', 'text')
+  if(seeConfirmPassword.getAttribute('type') == 'password'){
+    seeConfirmPassword.setAttribute('type', 'text')
   } else {
-    inputConfirmSenha.setAttribute('type', 'password')
+    seeConfirmPassword.setAttribute('type', 'password')
   }
 })
