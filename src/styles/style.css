@@ -1,150 +1,102 @@
-/* Variável das cores */
-:root {
-    --color-dark: rgb(14, 14, 14);
-    --color-dark2: rgb(35, 35, 35);
-    --color-dark3: rgb(22, 22, 22);
-    --color-dark4: rgb(48, 48, 48);
-    --color-white: #fff;
-    --color-green: rgb(103, 195, 80);
-    --color-green2: rgb(51, 149, 26);
-    --color-red: rgb(184, 40, 35);
-    --color-red2: rgb(146, 22, 17);
-}
-  
-/* Configurações incicias do body */
-body {
-    font-family: 'Poppins';
-    background-color: var(--color-dark3);
-    color: var(--color-white);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 3.5rem;
+@font-face {
+  font-family: 'Uni Sans Heavy';
+  src: url(fonts/Uni\ Sans\ Heavy.otf);
 }
 
-.container {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    margin-top: 100px;
-  }
-  
-  .card {
-    background-color: #ffffff80;
-    padding: 30px;
-    border-radius: 4%;
-    box-shadow: 3px 3px 1px 0px #00000060
-  }
-  
-  h1{
-    text-align: center;
-    margin-bottom: 20px;
-    color: #272262
-  }
-  
-  .label-float input{
-    width: 100%;
-    padding: 5px 5px;
-    display: inline-block;
-    border: 0;
-    border-bottom: 2px solid #272262;
-    background-color: transparent;
-    outline: none;
-    min-width: 180px;
-    font-size: 16px;
-    transition: all .3s ease-out;
-    border-radius: 0;
-    
-  }
-  
-  .label-float{
-    position: relative;
-    padding-top: 13px;
-    margin-top: 5%;
-    margin-bottom: 5%;
-  }
-  
-  .label-float input:focus{
-    border-bottom: 2px solid #4038a0;
-  }
-  
-  .label-float label{
-    color: #272262;
-    pointer-event: none;
-    position: absolute;
-    top: 0;
-    left: 0;
-    margin-top: 13px;
-    transition: all .3s ease-out;
-  }
-  
-  .label-float input:focus + label,
-  .label-float input:valid + label{
-    font-size: 13px;
-    margin-top: 0;
-    color: #4038a0
-  }
-  
-  button{
-    background-color: transparent;
-    border-color: #272262;
-    color: #272262;
-    padding: 7px;
-    font-weight: bold;
-    font-size: 12pt;
-    margin-top: 20px;
-    border-radius: 4px;
-    cursor: pointer;
-    outline: none;
-    transition: all .4s ease-out;
-  }
-  
-  button:hover{
-    background-color: #272262;
-    color: #fff;
-  }
-  
-  .justify-center{
-    display: flex;
-    justify-content: center;
-  }
-  
-  hr{
-    margin-top: 10%;
-    margin-bottom: 10%;
-    width: 60%;
-  }
-  
-  p{
-    color: #272262;
-    font-size: 14pt;
-    text-align: center;
-  }
-  
-  a{
-    color: #7a3077;
-    font-weight: bold;
-    text-decoration: none;
-    transition: all .3s ease-out;
-  }
-  
-  a:hover{
-    color: #272262;
-  }
-  
-  .fa-eye{
-    position: absolute;
-    top: 15px;
-    right: 10px;
-    cursor: pointer;
-    color: #272262;
-  }
-  
-   #msgError{
-    text-align: center;
-    color: #ff0000;
-    background-color: #ffbbbb;
-    padding: 10px;
-    border-radius: 4px;
-    display: none;
-  }
+@font-face {
+  font-family: 'Uni Sans Thin';
+  src: url(fonts/Uni\ Sans\ Thin.otf);
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url(fonts/Roboto-Light.ttf);
+}
+
+html, body {
+  height: 100vh;
+  background-image: linear-gradient(
+    55deg,
+    hsl(178deg 82% 35%) 0%,
+    hsl(79deg 53% 51%) 33%,
+    hsl(39deg 100% 50%) 52%,
+    hsl(26deg 100% 50%) 100%
+  );
+}
+
+h1, h2 {
+  font-family: 'Uni Sans Heavy';
+}
+
+.button {
+  font-size: 1.17em;
+}
+
+input, label, p, a, .button {
+  font-family: 'Roboto';
+}
+
+.login-container {
+  background: rgba( 255, 255, 255, 0.10 );
+  box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.20 );
+  backdrop-filter: blur( 13.5px );
+  -webkit-backdrop-filter: blur( 13.5px );
+  border-radius: 10px;
+  border: 2px solid rgba( 255, 255, 255, 0.35 );
+}
+
+.login-button button {
+  border: none;
+  color: #FFFFFF;
+  background-color: #007965;
+}
+
+input {
+  border: none;
+  outline: none;
+  background: rgba( 255, 255, 255, 0.35 );
+  position: relative;
+  font-size: 16px;
+  transition: all .3s ease-out;
+  padding: .5rem 1rem;
+}
+
+/* .label-float{
+  position: relative;
+  padding-top: 13px;
+  margin-top: 5%;
+  margin-bottom: 5%;
+}
+
+label {
+  color: rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+  position: absolute;
+  top: 0.6rem;
+  left: 4rem;
+  margin-top: 0.9rem;
+  transition: all .2s;
+}
+
+.label-float input:focus + label,
+.label-float input:valid + label {
+  color: rgba(0, 0, 0, 0);
+} */
+
+.link a {
+  text-decoration: none;
+  color: #000;
+  font-weight: bold;
+  transition: all .1s;
+}
+
+.link a:hover {
+  text-decoration: underline;
+  color: #131313f1;
+}
+
+.register-button {
+  text-decoration: none;
+  background-color: #007965;
+  color: #FFFFFF;
+}

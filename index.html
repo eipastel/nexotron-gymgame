@@ -6,48 +6,50 @@
 
   <!-- Link do CSS e Fonts -->
   <link rel="stylesheet" href="src/styles/style.css">
-  <link rel="stylesheet" href="src/styles/fonts/fonts.css">
+  
+  <!-- Link do Bootstrap -->
+  <link rel="stylesheet" href="src/styles/bootstrap-5.3.1-dist/css/bootstrap.css">
 
   <!-- Favicon -->
   <link rel="shortcut icon" href="src/imgs/favicon-logo-nexotron.ico" type="image/x-icon">
   <title>Login</title>
 </head>
 
-<body>
-  <h1>Gym Game</h1>
+<body class="d-flex flex-column align-items-center justify-content-center">
+  <h1 class="text-center">Gym Game</h1>
 
-  <div class='container'>
-    <div class='card'>
-      <h2>Entrar</h2>
+  <div class='mt-3 container w-25 text-center login-container'>
+    <div class='row align-items-center'>
+      <h2 class="mt-2 pt-2">Entrar</h2>
       
       <div id='msgError'></div>
       
-      <div class='label-float'>
-        <input type='text' id='user' paceholder='' required>
-        <label id='userLabel' for='user'>Usuário</label>
+      <div class='pt-3 label-float'>
+        <input class="w-75 rounded-3" type='text' id='username' required>
+        <!-- <label id='usernameLabel' for='username'>Usuário</label> -->
       </div>
       
-      <div class='label-float'>
-        <input type='password' id='password' paceholder='' required>
-        <label id='passwordLabel' for='password'>Senha</label>
+      <div class='pt-3 label-float'>
+        <input class="w-75 rounded-3" type='password' id='password' required>
+        <!-- <label id='passwordLabel' for='password'>Senha</label> -->
         <i class="fa fa-eye" aria-hidden="true"></i>
       </div>
       
-      <div class='justify-center'>
-        <button onclick='entrar()'>Entrar</button>
-      </div>
-      
-      <div class='justify-center'>
-        <hr>
-      </div>
-      
-      <p> Não tem uma conta?
-        <a href='src/pages/register-page.html'>Cadastre-se</a>
+      <p class='link pt-4'>Problemas para conectar?
+        <a href='/'>Clique aqui!</a>
       </p>
       
-    </div>
+      <div class='pt-1 justify-center login-button'>
+        <button class="w-75 p-2 rounded-3 button" onclick='login()'>Entrar</button>
+      </div>
     </div>
 
+    <div class='justify-center mb-5'>
+      <p class="mt-4">Não tem uma conta?</p>
+      <a class='register-button py-2 px-4 rounded-3' href='src/pages/register-page.html'>Registre-se agora!</a>
+    </div>
+  </div>
+  
   <script src="src/script/script.js"></script>
   </body>
 </html>
