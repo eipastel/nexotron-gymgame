@@ -1,3 +1,4 @@
+// Variáveis iniciais para fazer a coleta das informações do DOM
 let btn = document.querySelector('#seePassword')
 let btnConfirm = document.querySelector('#seeConfirmPassword')
 
@@ -20,67 +21,66 @@ let validConfirmPassword = false
 let msgError = document.querySelector('#msgError')
 let msgSuccess = document.querySelector('#msgSuccess')
 
+// Verificando se nome está válido
 user.addEventListener('keyup', () => {
   if(user.value.length <= 2){
-    labelUser.setAttribute('style', 'color: red')
-    labelUser.innerHTML = 'Nome *Insira no minimo 3 caracteres'
-    user.setAttribute('style', 'border-color: red')
+
+    // Nome não é válido
     validUser = false
   } else {
-    labelUser.setAttribute('style', 'color: green')
-    labelUser.innerHTML = 'Nome'
-    user.setAttribute('style', 'border-color: green')
+
+    // Nome é válido
     validUser = true
   }
 })
 
+// Verificando se usuário está válido
 username.addEventListener('keyup', () => {
   if(username.value.length <= 4){
-    labelUsername.setAttribute('style', 'color: red')
-    labelUsername.innerHTML = 'Usuário *Insira no minimo 5 caracteres'
-    username.setAttribute('style', 'border-color: red')
+
+    // Usuário não é válido
     validUsername = false
   } else {
-    labelUsername.setAttribute('style', 'color: green')
-    labelUsername.innerHTML = 'Usuário'
-    username.setAttribute('style', 'border-color: green')
+
+    // Usuário é válido
     validUsername = true
   }
 })
 
+// Verificando se a senha está válida
 password.addEventListener('keyup', () => {
   if(password.value.length <= 5){
-    labelPassword.setAttribute('style', 'color: red')
-    labelPassword.innerHTML = 'Senha *Insira no minimo 6 caracteres'
-    password.setAttribute('style', 'border-color: red')
+
+    // Senha não é válida
     validPassword = false
   } else {
-    labelPassword.setAttribute('style', 'color: green')
-    labelPassword.innerHTML = 'Senha'
-    password.setAttribute('style', 'border-color: green')
+
+    // Senha é válido
     validPassword = true
   }
 })
 
+// Verificando se a confirme senha está válido
 confirmPassword.addEventListener('keyup', () => {
   if(password.value != confirmPassword.value){
-    labelConfirmPassword.setAttribute('style', 'color: red')
-    labelConfirmPassword.innerHTML = 'Confirmar Senha *As senhas não conferem'
-    confirmPassword.setAttribute('style', 'border-color: red')
+
+    // Confirmar senha não é válido
     validConfirmPassword = false
   } else {
-    labelConfirmPassword.setAttribute('style', 'color: green')
-    labelConfirmPassword.innerHTML = 'Confirmar Senha'
-    confirmPassword.setAttribute('style', 'border-color: green')
+
+    // Confirmar senha é válido
     validConfirmPassword = true
   }
 })
 
+// Função do botão "Registrar"
 function register(){
   if(validUser && validUsername && validPassword && validConfirmPassword){
+    // Acessar a lista no local storage (ou criando uma vazia caso não tenha)
     let userList = JSON.parse(localStorage.getItem('userList') || '[]')
     
-   userList.push(
+    // Colocando o usuário válido dentro da lista no local storage
+    userList.push(
     {
       nameData: user.value,
       usernameData: username.value,
@@ -88,20 +88,23 @@ function register(){
     }
     )
     
+    // Transformando em string
     localStorage.setItem('userList', JSON.stringify(userList))
     
-   
+    // Mostrando a mensagem de sucesso e apagando a mensagem de erro
     msgSuccess.setAttribute('style', 'display: block')
     msgSuccess.innerHTML = '<strong>Cadastrando usuário...</strong>'
     msgError.setAttribute('style', 'display: none')
     msgError.innerHTML = ''
     
+    // Definindo um tempo de X segundos para trocar pro index
     setTimeout(()=>{
         window.location.href = '../../index.html'
     }, 3000)
   
     
   } else {
+    // Caso não sejam válidos, mostrando a mensagem de erro e apagamento a mensagem de sucesso.
     msgError.setAttribute('style', 'display: block')
     msgError.innerHTML = '<strong>Preencha todos os campos corretamente antes de cadastrar</strong>'
     msgSuccess.innerHTML = ''
@@ -109,6 +112,7 @@ function register(){
   }
 }
 
+// Evento listener no botão para ver a senha
 btn.addEventListener('click', ()=>{
   let seePassword = document.querySelector('#password')
   
@@ -119,6 +123,7 @@ btn.addEventListener('click', ()=>{
   }
 })
 
+// Evento listener no botão para ver o confirme senha
 btnConfirm.addEventListener('click', ()=>{
   let seeConfirmPassword = document.querySelector('#confirmSenha')
   

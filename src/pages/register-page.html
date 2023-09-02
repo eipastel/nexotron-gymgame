@@ -5,49 +5,46 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- Link do CSS e Fonts -->
-  <link rel="stylesheet" href="../styles/register-page.css">
-  <link rel="stylesheet" href="../styles/fonts/fonts.css">
+  <link rel="stylesheet" href="../styles/register-page-style.css">
+
+  <!-- Link do Bootstrap -->
+  <link rel="stylesheet" href="../styles/bootstrap-5.3.1-dist/css/bootstrap.css">
 
   <!-- Favicon -->
-  <link rel="shortcut icon" href="src/imgs/favicon-logo-nexotron.ico" type="image/x-icon">
+  <link rel="shortcut icon" href="../imgs/favicon-logo-nexotron.ico" type="image/x-icon">
   <title>Gym Game</title>
 </head>
 
+<body class="d-flex flex-column align-items-center justify-content-center">
+    <h1 class="text-center">Gym Game</h1>
 
-<body>
-
-    <div class='container'>
-        <div class='card'>
-            <h1> Cadastrar </h1>
+    <div class='mt-3 container w-25 text-center register-container'>
+        <div class='row align-items-center'>
+            <h2 class="mt-2 pt-2">Cadastro</h2>
             
             <div id='msgError'></div>
             <div id='msgSuccess'></div>
             
-                    <div class="label-float">
-                        <input type="text" id="user" placeholder=" " required>
-                        <label id="labelUser" for="user">Nome</label>
+                    <div class="pt-3 label-float">
+                        <input class="w-75 rounded-3" type="text" id="user" placeholder="Nome" required>
                     </div>
         
-                    <div class="label-float">
-                        <input type="text" id="username" placeholder=" " required>
-                        <label id="labelUsername" for="username">Usuário</label>
+                    <div class="pt-3 label-float">
+                        <input class="w-75 rounded-3" type="text" id="username" placeholder="Usuário" required>
                     </div>
                     
-                    <div class="label-float">
-                        <input type="password" id="password" placeholder=" " required>
-                        <label id="labelPassword" for="password">Senha</label>
+                    <div class="pt-3 label-float">
+                        <input class="w-75 rounded-3" type="password" id="password" placeholder="Senha" required>
                         <i id="seePassword" class="fa fa-eye" aria-hidden="true"></i>
-                        
                     </div>
         
-                    <div class="label-float">
-                        <input type="password" id="confirmPassword" placeholder=" " required>
-                        <label id="labelConfirmPassword" for="confirmPassword">Confirmar Senha</label>
+                    <div class="pt-3 label-float">
+                        <input class="w-75 rounded-3" type="password" id="confirmPassword" placeholder="Confirme a Senha" required>
                         <i id="seeConfirmPassword" class="fa fa-eye" aria-hidden="true"></i>
                     </div>
                     
-                    <div class='justify-center'>
-                        <button onclick='register()'>Cadastrar</button>
+                    <div class='pt-1 justify-center register-button'>
+                        <button class="my-4 mb-5 w-75 p-2 rounded-3 button" onclick='register()'>Cadastrar</button>
                     </div>
         
             <script src="../script/register-page.js"></script>
