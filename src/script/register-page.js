@@ -1,6 +1,6 @@
 // Variáveis iniciais para fazer a coleta das informações do DOM
-let btn = document.querySelector('#seePassword')
-let btnConfirm = document.querySelector('#seeConfirmPassword')
+let showPasswordBtn = document.querySelector('.showPass')
+let showConfirmPasswordBtn = document.querySelector('.showConfirmPass')
 
 let user = document.querySelector('#user')
 let labelUser = document.querySelector('#labelUser')
@@ -9,6 +9,10 @@ let validUser = false
 let username = document.querySelector('#username')
 let labelUsername = document.querySelector('#labelUsername')
 let validUsername = false
+
+let email = document.querySelector('#email')
+let labelEmail = document.querySelector('#labelEmail')
+let validEmail = false
 
 let password = document.querySelector('#password')
 let labelPassword = document.querySelector('#labelPassword')
@@ -20,6 +24,36 @@ let validConfirmPassword = false
 
 let msgError = document.querySelector('#msgError')
 let msgSuccess = document.querySelector('#msgSuccess')
+
+// Evento listener no botão para ver a senha
+showPasswordBtn.addEventListener('click', ()=>{
+  let inputPassword = document.querySelector('#password')
+  
+  if(inputPassword.getAttribute('type') == 'password'){
+    inputPassword.setAttribute('type', 'text')
+    showPasswordBtn.classList.remove('fa-eye-slash')
+    showPasswordBtn.classList.add('fa-eye')
+  } else {
+    inputPassword.setAttribute('type', 'password')
+    showPasswordBtn.classList.add('fa-eye-slash')
+    showPasswordBtn.classList.remove('fa-eye')
+  }
+})
+
+// Evento listener no botão para ver o confirme senha
+showConfirmPasswordBtn.addEventListener('click', ()=>{
+  let inputConfirmPassword = document.querySelector('#confirmPassword')
+  
+  if(inputConfirmPassword.getAttribute('type') == 'password'){
+    inputConfirmPassword.setAttribute('type', 'text')
+    showConfirmPasswordBtn.classList.remove('fa-eye-slash')
+    showConfirmPasswordBtn.classList.add('fa-eye')
+  } else {
+    inputConfirmPassword.setAttribute('type', 'password')
+    showConfirmPasswordBtn.classList.add('fa-eye-slash')
+    showConfirmPasswordBtn.classList.remove('fa-eye')
+  }
+})
 
 // Verificando se nome está válido
 user.addEventListener('keyup', () => {
@@ -44,6 +78,19 @@ username.addEventListener('keyup', () => {
 
     // Usuário é válido
     validUsername = true
+  }
+})
+
+// Verificando se e-mail está válido
+email.addEventListener('keyup', () => {
+  if(email.value.length <= 10){
+
+    // E-mail não é válido
+    validEmail = false
+  } else {
+
+    // E-mail é válido
+    validEmail = true
   }
 })
 
@@ -75,7 +122,7 @@ confirmPassword.addEventListener('keyup', () => {
 
 // Função do botão "Registrar"
 function register(){
-  if(validUser && validUsername && validPassword && validConfirmPassword){
+  if(validUser && validUsername && validPassword && validConfirmPassword && validEmail){
     // Acessar a lista no local storage (ou criando uma vazia caso não tenha)
     let userList = JSON.parse(localStorage.getItem('userList') || '[]')
     
@@ -84,6 +131,7 @@ function register(){
     {
       nameData: user.value,
       usernameData: username.value,
+      emailData: email.value,
       passwordData: password.value
     }
     )
@@ -111,25 +159,3 @@ function register(){
     msgSuccess.setAttribute('style', 'display: none')
   }
 }
-
-// Evento listener no botão para ver a senha
-btn.addEventListener('click', ()=>{
-  let seePassword = document.querySelector('#password')
-  
-  if(seePassword.getAttribute('type') == 'password'){
-    seePassword.setAttribute('type', 'text')
-  } else {
-    seePassword.setAttribute('type', 'password')
-  }
-})
-
-// Evento listener no botão para ver o confirme senha
-btnConfirm.addEventListener('click', ()=>{
-  let seeConfirmPassword = document.querySelector('#confirmSenha')
-  
-  if(seeConfirmPassword.getAttribute('type') == 'password'){
-    seeConfirmPassword.setAttribute('type', 'text')
-  } else {
-    seeConfirmPassword.setAttribute('type', 'password')
-  }
-})

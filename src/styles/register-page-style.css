@@ -43,12 +43,19 @@ input, label, p, a, .button {
   -webkit-backdrop-filter: blur( 13.5px );
   border-radius: 10px;
   border: 2px solid rgba( 255, 255, 255, 0.35 );
+  max-width: 450px;
 }
 
 .register-button button {
   border: none;
   color: #FFFFFF;
   background-color: #007965;
+}
+
+.login-button {
+  text-decoration: none;
+  background-color: #007965;
+  color: #FFFFFF;
 }
 
 input {
@@ -59,4 +66,18 @@ input {
   font-size: 16px;
   transition: all .3s ease-out;
   padding: .5rem 1rem;
+}
+
+.passShowHidden {
+  position: relative;
+}
+
+.passShowHidden i {
+  position: absolute;
+  color: #202020;
+  opacity: .8;
+  top: 64%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  right: 17%;
 }

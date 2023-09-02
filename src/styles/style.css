@@ -43,6 +43,7 @@ input, label, p, a, .button {
   -webkit-backdrop-filter: blur( 13.5px );
   border-radius: 10px;
   border: 2px solid rgba( 255, 255, 255, 0.35 );
+  max-width: 450px;
 }
 
 .login-button button {
@@ -61,28 +62,6 @@ input {
   padding: .5rem 1rem;
 }
 
-/* .label-float{
-  position: relative;
-  padding-top: 13px;
-  margin-top: 5%;
-  margin-bottom: 5%;
-}
-
-label {
-  color: rgba(0, 0, 0, 0.5);
-  pointer-events: none;
-  position: absolute;
-  top: 0.6rem;
-  left: 4rem;
-  margin-top: 0.9rem;
-  transition: all .2s;
-}
-
-.label-float input:focus + label,
-.label-float input:valid + label {
-  color: rgba(0, 0, 0, 0);
-} */
-
 .link a {
   text-decoration: none;
   color: #000;
@@ -99,4 +78,18 @@ label {
   text-decoration: none;
   background-color: #007965;
   color: #FFFFFF;
+}
+
+.passShowHidden {
+  position: relative;
+}
+
+.passShowHidden i {
+  position: absolute;
+  color: #202020;
+  opacity: .8;
+  top: 64%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  right: 17%;
 }

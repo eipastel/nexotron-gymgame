@@ -1,21 +1,24 @@
-let showPasswordBtn = document.querySelector('.fa-eye')
+let showPasswordBtn = document.querySelector('.fa-solid')
 
 showPasswordBtn.addEventListener('click', ()=>{
   let inputPassword = document.querySelector('#password')
   
   if(inputPassword.getAttribute('type') == 'password'){
     inputPassword.setAttribute('type', 'text')
+    showPasswordBtn.classList.remove('fa-eye-slash')
+    showPasswordBtn.classList.add('fa-eye')
   } else {
     inputPassword.setAttribute('type', 'password')
+    showPasswordBtn.classList.add('fa-eye-slash')
+    showPasswordBtn.classList.remove('fa-eye')
   }
 })
 
+// Botão de entrar
 function login(){
+  // Variáveis para valores do usuário e senha
   let username = document.querySelector('#username')
-  let usernameLabel = document.querySelector('#usernameLabel')
-  
   let password = document.querySelector('#password')
-  let passwordLabel = document.querySelector('#passwordLabel')
   
   let msgError = document.querySelector('#msgError')
   let userList = []
@@ -23,6 +26,7 @@ function login(){
   let validUser = {
     name: '',
     username: '',
+    email: '',
     password: ''
   }
   
@@ -34,6 +38,7 @@ function login(){
       validUser = {
          name: item.nameData,
          username: item.usernameData,
+         email: item.emailData,
          password: item.passwordData
        }
       
@@ -49,13 +54,10 @@ function login(){
     localStorage.setItem('token', token)
     localStorage.setItem('loggedUser', JSON.stringify(validUser))
   } else {
-    usernameLabel.setAttribute('style', 'color: red')
-    user.setAttribute('style', 'border-color: red')
-    passwordLabel.setAttribute('style', 'color: red')
+    username.setAttribute('style', 'border-color: red')
     password.setAttribute('style', 'border-color: red')
     msgError.setAttribute('style', 'display: block')
     msgError.innerHTML = 'Usuário ou senha incorretos'
-    user.focus()
+    username.focus()
   }
-  
 }
