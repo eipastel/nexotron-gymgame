@@ -2,7 +2,7 @@
 
 Gym Game é um aplicativo web gameficado que ajuda você a manter o foco nos seus treinos. Transforme sua rotina de exercícios em um jogo com desafios diários e semanais, pontuação e ranking.
 
-![Imagem do Aplicativo](https://github.com/eipastel/nexotron-gymgame/assets/92560005/e1f8b5a3-b4b3-4ad3-9267-a90604d0b0ab)
+![Imagem do Aplicativo](https://github.com/eipastel/nexotron-gymgame/assets/92560005/d6d53d6f-a148-4e3f-8eef-17d3e2628fa5)
 
 ## Índice
 - [Instalação](#instalação)
