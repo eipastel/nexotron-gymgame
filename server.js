@@ -1,6 +1,7 @@
 const express = require('express');
 const mysql = require('mysql2');
 const bodyParser = require('body-parser');
+const bcrypt = require('bcrypt');
 
 const app = express();
 app.use(bodyParser.json());
@@ -37,22 +38,50 @@ db.connect((err) => {
 });
 
 // Crie uma rota para receber os dados do front-end
-app.post('/register', (req, res) => {
+app.post('/register', async (req, res) => {
+    const { name, username, email, password } = req.body;
+
+    // primeiro, verifique se o usuário já existe
+    const [rows] = await db.promise().query('SELECT * FROM usuarios WHERE username = ? OR email = ?', [username, email]);
+
+    if (rows.length) {
+        return res.status(400).json({ error: 'Usuário já existente' });
+    }
+
+    // em seguida, crie o novo usuário
+    const hashedPassword = await bcrypt.hash(password, 10);
+
     const user = {
-        name: req.body.name,
-        username: req.body.username,
-        email: req.body.email,
-        password: req.body.password
+        name,
+        username,
+        email,
+        password: hashedPassword,
     };
 
-    console.log(user)
+    const [result] = await db.promise().query('INSERT INTO usuarios SET ?', user);
 
-    const sql = 'INSERT INTO usuarios SET ?';
-    db.query(sql, user, (err, result) => {
-        if (err) throw err;
-        console.log(result);
-        res.send('Usuário cadastrado');
-    });
+    console.log(result);
+    res.json({ message: 'Usuário cadastrado' });
+});
+
+
+app.post('/login', async (req, res) => {
+    // primeiro, recupere o usuário do banco de dados
+    const [rows] = await db.promise().query('SELECT * FROM usuarios WHERE username = ?', [req.body.username]);
+    const user = rows[0];
+
+    if (!user) {
+        return res.status(400).json({ error: 'Usuário não encontrado' });
+    }
+
+    // em seguida, verifique se a senha está correta
+    const validPassword = await bcrypt.compare(req.body.password, user.password);
+
+    if (!validPassword) {
+        return res.status(400).json({ error: 'Senha inválida' });
+    }
+
+    res.json({ message: 'Login bem-sucedido' });
 });
 
 app.listen(3000, () => {

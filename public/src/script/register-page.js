@@ -153,20 +153,28 @@ function register() {
   const password = document.getElementById('password').value
 
   fetch('http://localhost:3000/register', {
-      method: 'POST',
-      headers: {
-          'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-          name: name,
-          username: username,
-          email: email,
-          password: password,
-      }),
-  })
-  .then(response => response.json())
-  .then(data => console.log(data))
-  .catch((error) => {
-      console.error('Erro:', error)
-  });
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+        name: name,
+        username: username,
+        email: email,
+        password: password,
+    }),
+})
+.then(response => response.json())
+.then(data => {
+    if (data.error) {
+        // tratar erro
+        console.error(data.error);
+    } else {
+        // cadastro bem-sucedido
+        console.log('Cadastro bem-sucedido');
+    }
+})
+.catch((error) => {
+    console.error('Erro:', error);
+});
 }

@@ -14,14 +14,8 @@
 }
 
 html, body {
-  height: 100vh;
-  background-image: linear-gradient(
-    55deg,
-    hsl(178deg 82% 35%) 0%,
-    hsl(79deg 53% 51%) 33%,
-    hsl(39deg 100% 50%) 52%,
-    hsl(26deg 100% 50%) 100%
-  );
+  background-image: url(../imgs/nexotron-background.svg);
+	height: 100vh;
 }
 
 h1, h2 {
@@ -49,13 +43,15 @@ input, label, p, a, .button {
 .register-button button {
   border: none;
   color: #FFFFFF;
-  background-color: #007965;
+  background: linear-gradient(90deg, rgba(0, 121, 101, 0.90) 0%, rgba(0, 175, 145, 0.80) 49.92%, rgba(242, 178, 0, 0.80) 100%, rgba(242, 178, 0, 0.90));
+  /* Adicionar ruído */
 }
 
 .login-button {
   text-decoration: none;
-  background-color: #007965;
   color: #FFFFFF;
+  background: linear-gradient(90deg, rgba(0, 121, 101, 0.90) 0%, rgba(0, 175, 145, 0.80) 49.92%, rgba(242, 178, 0, 0.80) 100%, rgba(242, 178, 0, 0.90));
+  /* Adicionar ruído */
 }
 
 input {

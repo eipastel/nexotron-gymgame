@@ -15,7 +15,7 @@ showPasswordBtn.addEventListener('click', ()=>{
 })
 
 // Botão de entrar
-function login(){
+function logina(){
   // Variáveis para valores do usuário e senha
   let username = document.querySelector('#username')
   let password = document.querySelector('#password')
@@ -60,4 +60,32 @@ function login(){
     msgError.innerHTML = 'Usuário ou senha incorretos'
     username.focus()
   }
+}
+
+function login() {
+  const username = document.getElementById('username').value;
+  const password = document.getElementById('password').value;
+
+  fetch('http://localhost:3000/login', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+          username: username,
+          password: password,
+      }),
+  })
+  .then(response => response.json())
+  .then(data => {
+      if (data.error) {
+          // tratar erro
+          console.error(data.error);
+      } else {
+          // login bem-sucedido
+          console.log('Login bem-sucedido');
+          window.location.href = 'src/pages/main-page.html';
+      }
+  })
+
 }
