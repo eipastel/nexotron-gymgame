@@ -1,0 +1,17 @@
+{
+  "name": "nexotron-gymgame",
+  "version": "1.0.0",
+  "description": "Gym Game é um aplicativo web gameficado que ajuda você a manter o foco nos seus treinos. Transforme sua rotina de exercícios em um jogo com desafios diários e semanais, pontuação e ranking.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Nexotron",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mysql": "^2.18.1",
+    "mysql2": "^3.6.0",
+    "sequelize": "^6.32.1"
+  }
+}

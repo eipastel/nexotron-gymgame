@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Link do CSS e Fonts -->
+  <link rel="stylesheet" href="src/styles/style.css">
+  
+  <!-- Link do Bootstrap -->
+  <link rel="stylesheet" href="src/styles/bootstrap-5.3.1-dist/css/bootstrap.css">
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="src/imgs/favicon-logo-nexotron.ico" type="image/x-icon">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
+
+  <title>Entrar</title>
+</head>
+
+<body class="d-flex flex-column align-items-center justify-content-center">
+  <div id="bg-wrap">
+
+  <h1 class="text-center">Gym Game</h1>
+
+  <div class='mt-3 text-center login-container'>
+    <div class='row align-items-center'>
+      <h2 class="mt-2 pt-2">Entrar</h2>
+      
+      <div id='msgError'></div>
+      
+      <div class='pt-3 label-float'>
+        <input class="w-75 rounded-3" type='text' placeholder="Usuário" id='username' required>
+      </div>
+      
+      <div class='passShowHidden pt-3 label-float'>
+        <input class="w-75 rounded-3" type='password' placeholder="Senha" id='password' required>
+        <i class="fa-solid fa-eye-slash" aria-hidden="false"></i>
+      </div>
+      
+      <p class='link pt-4'>Problemas para conectar?
+        <a href='/'>Clique aqui!</a>
+      </p>
+      
+      <div class='pt-1 justify-center login-button'>
+        <button class="w-75 p-2 rounded-3 button" onclick='login()'>Entrar</button>
+      </div>
+    </div>
+
+    <div class='justify-center mb-5'>
+      <p class="mt-4">Não tem uma conta?</p>
+      <a class='register-button py-2 px-4 rounded-3' href='src/pages/register-page.html'>Registre-se agora!</a>
+    </div>
+  </div>
+  
+  <script src="src/script/script.js"></script>
+  </body>
+</html>
