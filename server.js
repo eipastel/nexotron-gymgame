@@ -21,7 +21,7 @@ const db = mysql.createConnection({
 // Lidar com a conexão ao banco de dados
 db.connect((err) => {
   if (err) throw err;
-  console.log('Conectado ao banco de dados');
+  // Conectado com sucesso ao banco de dados.
 
   const sql = `
       CREATE TABLE IF NOT EXISTS usuarios (
@@ -33,32 +33,30 @@ db.connect((err) => {
       )
   `;
 
-  // Criar tabela de usuários, se não existir
+  // Criar tabela de usuários, se não existir.
   db.query(sql, (err, result) => {
       if (err) throw err;
-      console.log('Tabela de usuários criada');
   });
 });
 
-// Lidar com o registro de usuário
+// Registro do usuário
 app.post('/register', async (req, res) => {
     const { name, username, email, password } = req.body;
 
-    // Primeiro, verifique se o usuário já existe
+    // Verificando se o usuário já existe
     const [rows] = await db.promise().query('SELECT * FROM usuarios WHERE username = ? OR email = ?', [username, email]);
 
     if (rows.length) {
-        return res.status(400).json({ error: 'Usuário já existente' });
+        return res.status(409).json({ error: 'USER_ALREADY_EXISTS' });
     }
 
-    // Em seguida, crie o novo usuário
+    // Criando o novo usuário
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = { name, username, email, password: hashedPassword };
 
     const [result] = await db.promise().query('INSERT INTO usuarios SET ?', user);
 
-    console.log(result);
     res.json({ message: 'Usuário cadastrado' });
 });
 
@@ -84,7 +82,7 @@ app.post('/login', async (req, res) => {
     res.json({ message: 'Login bem-sucedido' });
 });
 
-// Iniciar o servidor
+// Iniciando o servidor
 app.listen(3000, () => {
     console.log('Servidor rodando na porta 3000');
 });

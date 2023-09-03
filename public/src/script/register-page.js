@@ -2,30 +2,25 @@
 let showPasswordBtn = document.querySelector('.showPass')
 let showConfirmPasswordBtn = document.querySelector('.showConfirmPass')
 
-let user = document.querySelector('#user')
-let labelUser = document.querySelector('#labelUser')
+let user = document.querySelector('#name')
 let validUser = false
 
 let username = document.querySelector('#username')
-let labelUsername = document.querySelector('#labelUsername')
 let validUsername = false
 
 let email = document.querySelector('#email')
-let labelEmail = document.querySelector('#labelEmail')
 let validEmail = false
 
 let password = document.querySelector('#password')
-let labelPassword = document.querySelector('#labelPassword')
 let validPassword = false
 
 let confirmPassword = document.querySelector('#confirmPassword')
-let labelConfirmPassword = document.querySelector('#labelConfirmPassword')
 let validConfirmPassword = false
 
 let msgError = document.querySelector('#msgError')
 let msgSuccess = document.querySelector('#msgSuccess')
 
-// Evento listener no botão para ver a senha
+// Event listener no botão para ver a senha
 showPasswordBtn.addEventListener('click', ()=>{
   let inputPassword = document.querySelector('#password')
   
@@ -40,7 +35,7 @@ showPasswordBtn.addEventListener('click', ()=>{
   }
 })
 
-// Evento listener no botão para ver o confirme senha
+// Event listener no botão para ver o confirme senha
 showConfirmPasswordBtn.addEventListener('click', ()=>{
   let inputConfirmPassword = document.querySelector('#confirmPassword')
   
@@ -60,11 +55,11 @@ user.addEventListener('keyup', () => {
   if(user.value.length <= 2){
 
     // Nome não é válido
-    validUser = false
+    return validUser = false
   } else {
 
     // Nome é válido
-    validUser = true
+    return validUser = true
   }
 })
 
@@ -73,11 +68,11 @@ username.addEventListener('keyup', () => {
   if(username.value.length <= 4){
 
     // Usuário não é válido
-    validUsername = false
+    return validUsername = false
   } else {
 
     // Usuário é válido
-    validUsername = true
+    return validUsername = true
   }
 })
 
@@ -86,11 +81,11 @@ email.addEventListener('keyup', () => {
   if(email.value.length <= 10){
 
     // E-mail não é válido
-    validEmail = false
+    return validEmail = false
   } else {
 
     // E-mail é válido
-    validEmail = true
+    return validEmail = true
   }
 })
 
@@ -99,11 +94,11 @@ password.addEventListener('keyup', () => {
   if(password.value.length <= 5){
 
     // Senha não é válida
-    validPassword = false
+    return validPassword = false
   } else {
 
     // Senha é válido
-    validPassword = true
+    return validPassword = true
   }
 })
 
@@ -112,69 +107,71 @@ confirmPassword.addEventListener('keyup', () => {
   if(password.value != confirmPassword.value){
 
     // Confirmar senha não é válido
-    validConfirmPassword = false
+    return validConfirmPassword = false
   } else {
 
     // Confirmar senha é válido
-    validConfirmPassword = true
+    return validConfirmPassword = true
   }
 })
 
 // Função do botão "Registrar"
-function registera(){
-  if(validUser && validUsername && validPassword && validConfirmPassword && validEmail){
+function register(){
 
-    
-    // Mostrando a mensagem de sucesso e apagando a mensagem de erro
-    msgSuccess.setAttribute('style', 'display: block')
-    msgSuccess.innerHTML = '<strong>Cadastrando usuário...</strong>'
-    msgError.setAttribute('style', 'display: none')
-    msgError.innerHTML = ''
-    
-    // Definindo um tempo de X segundos para trocar pro index
-    setTimeout(()=>{
-        window.location.href = '../../index.html'
-    }, 3000)
-  
+  // Validando se todos os campos estão preenchidos corretamente
+  if(validUser && validUsername && validPassword && validConfirmPassword && validEmail){
+    const name = document.getElementById('name').value
+    const username = document.getElementById('username').value
+    const email = document.getElementById('email').value
+    const password = document.getElementById('password').value
+
+    fetch('http://localhost:3000/register', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+          name: name,
+          username: username,
+          email: email,
+          password: password,
+      }),
+      })
+    .then(response => response.json())
+    .then(data => {
+      if (data.error === "USER_ALREADY_EXISTS") {
+          // Erro usuário já existente
+
+          msgError.setAttribute('style', 'display: block')
+          msgError.innerHTML = 'Usuário já cadastrado.'
+          msgSuccess.innerHTML = ''
+          msgSuccess.setAttribute('style', 'display: none')
+      } else {
+        // cadastro bem-sucedido
+
+        // Mostrando a mensagem de sucesso e apagando a mensagem de erro
+        msgSuccess.setAttribute('style', 'display: block')
+        msgSuccess.innerHTML = 'Cadastrando usuário...'
+        msgError.setAttribute('style', 'display: none')
+        msgError.innerHTML = ''
+
+        // Definindo um tempo de X (nesse caso 1000 = 1 segundo) segundos para redirecionar para o index
+        setTimeout(()=>{
+          window.location.href = '../../index.html'
+        }, 3000)
+      }
+      })
+      // Caso haja algum erro não identificado do servidor ou outro.
+      .catch((error) => {
+          console.error('Erro não identificado:', error);
+      });
     
   } else {
     // Caso não sejam válidos, mostrando a mensagem de erro e apagamento a mensagem de sucesso.
+
     msgError.setAttribute('style', 'display: block')
-    msgError.innerHTML = '<strong>Preencha todos os campos corretamente antes de cadastrar</strong>'
+    msgError.innerHTML = 'Insira todos os campos corretamente antes de continuar.'
     msgSuccess.innerHTML = ''
     msgSuccess.setAttribute('style', 'display: none')
   }
-}
-
-function register() {
-  const name = document.getElementById('name').value
-  const username = document.getElementById('username').value
-  const email = document.getElementById('email').value
-  const password = document.getElementById('password').value
-
-  fetch('http://localhost:3000/register', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-        name: name,
-        username: username,
-        email: email,
-        password: password,
-    }),
-})
-.then(response => response.json())
-.then(data => {
-    if (data.error) {
-        // tratar erro
-        console.error(data.error);
-    } else {
-        // cadastro bem-sucedido
-        console.log('Cadastro bem-sucedido');
-    }
-})
-.catch((error) => {
-    console.error('Erro:', error);
-});
 }
