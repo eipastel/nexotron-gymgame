@@ -63,8 +63,9 @@ function logina(){
 }
 
 function login() {
-  const username = document.getElementById('username').value;
-  const password = document.getElementById('password').value;
+  const username = document.getElementById('username').value
+  const usernameInput = document.getElementById('username')
+  const password = document.getElementById('password').value
 
   fetch('http://localhost:3000/login', {
       method: 'POST',
@@ -81,11 +82,15 @@ function login() {
       if (data.error) {
           // tratar erro
           console.error(data.error);
+      } else if (data.error === "USER_NOT_FOUND") {
+        // Erro de usuário não encontrado.
+        // Tratar aqui
+      } else if (data.error === "INVALID_PASSWORD") {
+        // Erro de senha inválida.
+        // Tratar aqui
       } else {
-          // login bem-sucedido
-          console.log('Login bem-sucedido');
-          window.location.href = 'src/pages/main-page.html';
-      }
+        // Login com sucesso e redirecionando para o programa principal
+        window.location.href = 'src/pages/main-page.html';
+    }
   })
-
 }
