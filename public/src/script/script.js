@@ -1,3 +1,11 @@
+window.onload = function() {
+  const jwtToken = localStorage.getItem('jwtToken');
+
+  if (jwtToken) {
+      window.location.href = 'http://localhost:3000/src/pages/main-page.html';
+  }
+};
+
 let showPasswordBtn = document.querySelector('.fa-solid')
 
 showPasswordBtn.addEventListener('click', ()=>{
@@ -90,6 +98,7 @@ function login() {
         // Tratar aqui
       } else {
         // Login com sucesso e redirecionando para o programa principal
+        localStorage.setItem('jwtToken', data.token);
         window.location.href = 'src/pages/main-page.html';
     }
   })

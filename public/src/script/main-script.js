@@ -1,3 +1,14 @@
+window.onload = function() {
+  const jwtToken = localStorage.getItem('jwtToken');
+
+  if (!jwtToken) {
+      window.location.href = 'http://localhost:3000/index.html';
+  } else {
+      // Você pode adicionar uma verificação adicional aqui para validar o token com o servidor,
+      // se desejar uma segurança adicional.
+  }
+};
+
 // Criando a chave do local storage
 const localStorageKey = 'nexotron-list-tasks'
 
@@ -68,6 +79,11 @@ function finishTask(task) {
 
   // Atualizando na tela os itens atuais
   showNewTasks()
+}
+
+function logout() {
+  localStorage.removeItem('jwtToken');
+  window.location.href = 'http://localhost:3000/index.html';
 }
 
 // Mostrando de começo as tarefas existentes.

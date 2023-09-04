@@ -1,3 +1,11 @@
+window.onload = function() {
+  const jwtToken = localStorage.getItem('jwtToken');
+
+  if (jwtToken) {
+      window.location.href = 'http://localhost:3000/src/pages/main-page.html';
+  }
+};
+
 // Variáveis iniciais para fazer a coleta das informações do DOM
 let showPasswordBtn = document.querySelector('.showPass')
 let showConfirmPasswordBtn = document.querySelector('.showConfirmPass')

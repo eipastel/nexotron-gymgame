@@ -3,6 +3,7 @@ const express = require('express');
 const mysql = require('mysql2');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 const app = express();
 app.use(bodyParser.json());
@@ -80,7 +81,8 @@ app.post('/login', async (req, res) => {
         return res.status(401).json({ error: 'INVALID_PASSWORD' });
     }
 
-    res.json({ message: 'Login realizado com sucesso!' });
+    const token = jwt.sign({ id: user.id }, 'TESTE_CHAVE', { expiresIn: '1h' });
+    res.json({ message: 'Login realizado com sucesso!', token: token });
 });
 
 // Iniciando o servidor na porta 3000
