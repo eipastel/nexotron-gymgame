@@ -1,17 +1,17 @@
-// Variáveis iniciais
+require('dotenv').config();
 const express = require('express');
 const mysql = require('mysql2');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
+const TOKEN_KEY = process.env.TOKEN_KEY;
+
 const app = express();
 app.use(bodyParser.json());
 
-// Pasta public para arquivos estáticos
 app.use(express.static('public'));
 
-// Conexão com o banco de dados
 const db = mysql.createConnection({
     host: 'containers-us-west-195.railway.app',
     user: 'root',
@@ -20,39 +20,45 @@ const db = mysql.createConnection({
     port: 5474
 });
 
-// Ainda comunicação com o banco de dados, avisar caso haja um erro, se não tiver erros, criar uma tabela (também caso não exista)
 db.connect((err) => {
-  if (err) throw err;
-  // Conectado com sucesso ao banco de dados.
+    if (err) throw err;
 
-  const sql = `
-      CREATE TABLE IF NOT EXISTS usuarios (
-          id INT AUTO_INCREMENT PRIMARY KEY,
-          name VARCHAR(255),
-          username VARCHAR(255),
-          email VARCHAR(255),
-          password VARCHAR(255)
-      )
-  `;
+    const sqlUsers = `
+        CREATE TABLE IF NOT EXISTS usuarios (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            name VARCHAR(255),
+            username VARCHAR(255),
+            email VARCHAR(255),
+            password VARCHAR(255)
+        )
+    `;
 
-  // Criar tabela de usuários, se não existir.
-  db.query(sql, (err, result) => {
-      if (err) throw err;
-  });
+    db.query(sqlUsers, (err, result) => {
+        if (err) throw err;
+    });
+
+    const sqlTasks = `
+        CREATE TABLE IF NOT EXISTS tasks (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            user_id INT,
+            description VARCHAR(255),
+            FOREIGN KEY (user_id) REFERENCES usuarios(id)
+        )
+    `;
+
+    db.query(sqlTasks, (err, result) => {
+        if (err) throw err;
+    });
 });
 
-// Post para registro do usuário
 app.post('/register', async (req, res) => {
     const { name, username, email, password } = req.body;
 
-    // Verificando se o usuário já existe
     const [rows] = await db.promise().query('SELECT * FROM usuarios WHERE username = ? OR email = ?', [username, email]);
     if (rows.length) {
-        // Lançando o erro caso seja usuário já existente
         return res.status(409).json({ error: 'USER_ALREADY_EXISTS' });
     }
 
-    // Criando o novo usuário
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = { name, username, email, password: hashedPassword };
     const [result] = await db.promise().query('INSERT INTO usuarios SET ?', user);
@@ -60,32 +66,82 @@ app.post('/register', async (req, res) => {
     res.json({ message: 'Usuário cadastrado com sucesso!' });
 });
 
-// Post para login do usuário
 app.post('/login', async (req, res) => {
     const { username, password } = req.body;
 
-    // Verificando o banco de dados se o usuário existe
     const [rows] = await db.promise().query('SELECT * FROM usuarios WHERE username = ?', [username]);
     const user = rows[0];
 
-    // Caso não exista, lançando o erro de usuário não encontrado
     if (!user) {
         return res.status(401).json({ error: 'USER_NOT_FOUND' });
     }
 
-    // Comparando a senha criptografada para ver se a senha está correta
     const validPassword = await bcrypt.compare(password, user.password);
 
-    // Caso não esteja, lançando o erro de senha inválida.
     if (!validPassword) {
         return res.status(401).json({ error: 'INVALID_PASSWORD' });
     }
 
-    const token = jwt.sign({ id: user.id }, 'TESTE_CHAVE', { expiresIn: '1h' });
+    const token = jwt.sign({ id: user.id }, TOKEN_KEY, { expiresIn: '1h' });
     res.json({ message: 'Login realizado com sucesso!', token: token });
 });
 
-// Iniciando o servidor na porta 3000
+app.post('/tasks', async (req, res) => {
+    const token = req.headers['authorization'];
+    const { description } = req.body;
+
+    if (!token) {
+        return res.status(401).json({ error: 'Token não fornecido' });
+    }
+
+    try {
+        const decoded = jwt.verify(token, TOKEN_KEY);
+        const userId = decoded.id;
+
+        await db.promise().query('INSERT INTO tasks (user_id, description) VALUES (?, ?)', [userId, description]);
+        res.json({ message: 'Tarefa adicionada com sucesso!' });
+    } catch (err) {
+        res.status(401).json({ error: 'Token inválido' });
+    }
+});
+
+app.delete('/tasks/:id', async (req, res) => {
+    const token = req.headers['authorization'];
+    const taskId = req.params.id;
+
+    if (!token) {
+        return res.status(401).json({ error: 'Token não fornecido' });
+    }
+
+    try {
+        const decoded = jwt.verify(token, TOKEN_KEY);
+        const userId = decoded.id;
+
+        await db.promise().query('DELETE FROM tasks WHERE id = ? AND user_id = ?', [taskId, userId]);
+        res.json({ message: 'Tarefa excluída com sucesso!' });
+    } catch (err) {
+        res.status(401).json({ error: 'Token inválido' });
+    }
+});
+
+app.get('/tasks', async (req, res) => {
+    const token = req.headers['authorization'];
+
+    if (!token) {
+        return res.status(401).json({ error: 'Token não fornecido' });
+    }
+
+    try {
+        const decoded = jwt.verify(token, TOKEN_KEY);
+        const userId = decoded.id;
+
+        const [rows] = await db.promise().query('SELECT * FROM tasks WHERE user_id = ?', [userId]);
+        res.json({ tasks: rows });
+    } catch (err) {
+        res.status(401).json({ error: 'Token inválido' });
+    }
+});
+
 app.listen(3000, () => {
     console.log('Servidor rodando na porta 3000: http://localhost:3000');
 });

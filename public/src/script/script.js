@@ -6,6 +6,13 @@ window.onload = function() {
   }
 };
 
+// Evento para apertar ENTER e logar
+window.addEventListener('keyup', function(event) {
+  if (event.key === 'Enter') {
+    login(); 
+  }
+});
+
 let showPasswordBtn = document.querySelector('.fa-solid')
 
 showPasswordBtn.addEventListener('click', ()=>{

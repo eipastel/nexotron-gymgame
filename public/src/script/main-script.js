@@ -3,82 +3,86 @@ window.onload = function() {
 
   if (!jwtToken) {
       window.location.href = 'http://localhost:3000/index.html';
-  } else {
-      // Você pode adicionar uma verificação adicional aqui para validar o token com o servidor,
-      // se desejar uma segurança adicional.
-  }
+  } 
+  // Caso haja token JWT, não é necessário uma ação adicional aqui, 
+  // mas você pode adicionar uma verificação com o servidor se necessário.
 };
 
-// Criando a chave do local storage
-const localStorageKey = 'nexotron-list-tasks'
-
-// Verificando se a tarefa já existe
-function isUnique() {
-  // Pegando os valores da tarefa do local storage e do input
-  let values = JSON.parse(localStorage.getItem(localStorageKey) || "[]")
-  const newTask = document.getElementById('input-new-task')
-  const newTaskValue = newTask.value
-  let isUnique = values.find(task => task.name == newTaskValue)
-
-  // Se não existe, retorna false, caso contrário, true.
-  return !isUnique ? false : true
-}
-
 function addTask() {
-  const newTask = document.getElementById('input-new-task')
-  const newTaskValue = newTask.value
+  const newTask = document.getElementById('input-new-task');
+  const newTaskValue = newTask.value.trim(); // Prevenindo espaços em branco
+  const jwtToken = localStorage.getItem('jwtToken');
 
-  // Validação se há tarefa 
   if(!newTaskValue) {
-    alert("É necessário digitar a tarefa!")
-  } else if(isUnique()) {
-    alert("Essa tarefa já existe!")
-  } else {
-    // Incrementando no local storage
+    alert("É necessário digitar a tarefa!");
+    return; // Retornando aqui para evitar execução adicional
+  } 
 
-    // Validando e transformando tarefas em array.
-    let values = JSON.parse(localStorage.getItem(localStorageKey) || "[]")
-    values.push({
-      name: newTaskValue
-    })
-    localStorage.setItem(localStorageKey, JSON.stringify(values))
+  fetch('http://localhost:3000/tasks', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': jwtToken
+    },
+    body: JSON.stringify({ description: newTaskValue })
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.message) {
+      showNewTasks(); // Sucesso ao adicionar tarefa e atualizando a lista de tarefas
+    } else {
+      alert('Erro ao criar tarefa.');
+    }
+  })
+  .catch(error => {
+    console.error('Erro ao criar tarefa:', error);
+  });
 
-    //Atualizando na tela os itens atuais
-    showNewTasks()
-  }
-
-  // Limpando o valor do input após clicar no botão
-  newTask.value = ""
+  newTask.value = "";
 }
 
 function showNewTasks() {
-  // Definindo qual tarefa a ser adicionada
-  let values = JSON.parse(localStorage.getItem(localStorageKey) || "[]")
+  const jwtToken = localStorage.getItem('jwtToken');
 
-  // Identificando e resetando a lista para não mostrar duplicado
-  const listOfTasks = document.getElementById('task-list')
-  listOfTasks.innerHTML = ''
+  fetch('http://localhost:3000/tasks', {
+    headers: {
+      'Authorization': jwtToken
+    }
+  })
+  .then(response => response.json())
+  .then(data => {
+    const listOfTasks = document.getElementById('task-list');
+    listOfTasks.innerHTML = '';
 
-  // Mostrando a tarefa no documento
-  for(let listIndex = 0; listIndex < values.length; listIndex++) {
-    // Ícone de check como SVG do Bootstrap
-    listOfTasks.innerHTML += `<li>${values[listIndex]['name']}<button id="btn-ok" onclick='finishTask("${values[listIndex]['name']}")'><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
-    <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z"/>
-  </svg></button></li>`
-  }
+    data.tasks.forEach(task => {
+      listOfTasks.innerHTML += `<li>${task.description}<button id="btn-ok" onclick='finishTask("${task.id}", "${task.description}")'>✓</button></li>`;
+    });
+  })
+  .catch(error => {
+    console.error('Erro ao buscar tarefas:', error);
+  });
 }
 
-function finishTask(task) {
-  // Procurando o índice da tarefa a ser removida
-  let values = JSON.parse(localStorage.getItem(localStorageKey) || "[]")
-  let taskIndex = values.findIndex(taskToRemove => taskToRemove.name == task)
+function finishTask(taskId, taskDescription) {
+  const jwtToken = localStorage.getItem('jwtToken');
 
-  // Deletando a tarefa do local storage
-  values.splice(taskIndex, 1)
-  localStorage.setItem(localStorageKey, JSON.stringify(values))
-
-  // Atualizando na tela os itens atuais
-  showNewTasks()
+  fetch(`http://localhost:3000/tasks/${taskId}`, {
+    method: 'DELETE',
+    headers: {
+      'Authorization': jwtToken
+    }
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.message) {
+      showNewTasks(); // Sucesso ao excluir a tarefa e atualizando a lista de tarefas
+    } else {
+      alert('Erro ao excluir tarefa.');
+    }
+  })
+  .catch(error => {
+    console.error('Erro ao excluir tarefa:', error);
+  });
 }
 
 function logout() {
@@ -86,5 +90,5 @@ function logout() {
   window.location.href = 'http://localhost:3000/index.html';
 }
 
-// Mostrando de começo as tarefas existentes.
-showNewTasks()
+// Mostrando as tarefas existentes ao carregar a página
+showNewTasks();
