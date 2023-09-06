@@ -77,3 +77,55 @@ input {
   cursor: pointer;
   right: 17%;
 }
+
+.registerError {
+  position: relative;
+}
+
+.nameRegisterErrorIcon {
+  position: absolute;
+  color: rgb(199, 31, 31);
+  opacity: .8;
+  top: 64%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  right: 17%;
+  display: none;
+}
+
+.usernameRegisterErrorIcon {
+  position: absolute;
+  color: rgb(199, 31, 31);
+  opacity: .8;
+  top: 64%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  right: 17%;
+  display: none;
+}
+
+.emailRegisterErrorIcon {
+  position: absolute;
+  color: rgb(199, 31, 31);
+  opacity: .8;
+  top: 64%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  right: 17%;
+  display: none;
+}
+
+
+#msgError {
+  color: rgb(255, 70, 70);
+  font-size: 1.1rem;
+}
+
+#msgSuccess {
+  color: rgb(85, 233, 85);
+  font-size: 1.1rem;
+}
+
+.showRegisterError {
+  display: block;
+}

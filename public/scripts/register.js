@@ -123,6 +123,13 @@ confirmPassword.addEventListener('keyup', () => {
   }
 })
 
+// Evento para detectar a tecla 'Enter' e acionar a função de registro.
+window.addEventListener('keyup', function(event) {
+  if (event.key === 'Enter') {
+      register(); 
+  }
+});
+
 // Função do botão "Registrar"
 function register(){
 
@@ -130,7 +137,9 @@ function register(){
   if(validUser && validUsername && validPassword && validConfirmPassword && validEmail){
     const name = document.getElementById('name').value
     const username = document.getElementById('username').value
+    const usernameInput = document.getElementById('username')
     const email = document.getElementById('email').value
+    const emailInput = document.getElementById('email')
     const password = document.getElementById('password').value
 
     fetch('http://localhost:3000/register', {
@@ -150,18 +159,43 @@ function register(){
       if (data.error === "USER_ALREADY_EXISTS") {
           // Erro usuário já existente
 
+          // Borda vermelha nos campos possivelmente inválidos
+          usernameInput.focus()
+          usernameInput.style.border = '1px solid rgb(199, 31, 31)';
+          emailInput.style.border = '1px solid rgb(199, 31, 31)';
+
+          // Mensagem de erro
           msgError.setAttribute('style', 'display: block')
-          msgError.innerHTML = 'Usuário já cadastrado.'
+          msgError.innerHTML = 'Usuário já existente!'
           msgSuccess.innerHTML = ''
           msgSuccess.setAttribute('style', 'display: none')
+
       } else {
         // cadastro bem-sucedido
+        const nameInput = document.getElementById('name')
+        const usernameInput = document.getElementById('username')
+        const emailInput = document.getElementById('email')
+        const passwordInput = document.getElementById('password')
+        const confirmPasswordInput = document.getElementById('confirmPassword')
+        const nameRegisterErrorIcon = document.querySelector('.nameRegisterErrorIcon')
+        const usernameRegisterErrorIcon = document.querySelector('.usernameRegisterErrorIcon')
+        const emailRegisterErrorIcon = document.querySelector('.emailRegisterErrorIcon')
 
         // Mostrando a mensagem de sucesso e apagando a mensagem de erro
         msgSuccess.setAttribute('style', 'display: block')
         msgSuccess.innerHTML = 'Cadastrando usuário...'
         msgError.setAttribute('style', 'display: none')
         msgError.innerHTML = ''
+
+        // Apagando o informativo de campos inválidos.
+        usernameRegisterErrorIcon.classList.remove('showRegisterError');
+        nameRegisterErrorIcon.classList.remove('showRegisterError');
+        emailRegisterErrorIcon.classList.remove('showRegisterError');
+        usernameInput.style.border = 'none';
+        emailInput.style.border = 'none';
+        nameInput.style.border = 'none';
+        passwordInput.style.border = 'none';
+        confirmPasswordInput.style.border = 'none';
 
         // Definindo um tempo de X (nesse caso 1000 = 1 segundo) segundos para redirecionar para o index
         setTimeout(()=>{
@@ -175,11 +209,55 @@ function register(){
       });
     
   } else {
-    // Caso não sejam válidos, mostrando a mensagem de erro e apagamento a mensagem de sucesso.
+    // Caso não sejam válidos, mostrando a mensagem de erro, apagamento a mensagem de sucesso, mostrando qual campo está incorreto.
+    const nameInput = document.getElementById('name')
+    const usernameInput = document.getElementById('username')
+    const emailInput = document.getElementById('email')
+    const passwordInput = document.getElementById('password')
+    const confirmPasswordInput = document.getElementById('confirmPassword')
+    const nameRegisterErrorIcon = document.querySelector('.nameRegisterErrorIcon')
+    const usernameRegisterErrorIcon = document.querySelector('.usernameRegisterErrorIcon')
+    const emailRegisterErrorIcon = document.querySelector('.emailRegisterErrorIcon')
 
     msgError.setAttribute('style', 'display: block')
-    msgError.innerHTML = 'Insira todos os campos corretamente antes de continuar.'
+    msgError.innerHTML = 'Insira todos os campos corretamente!'
     msgSuccess.innerHTML = ''
     msgSuccess.setAttribute('style', 'display: none')
+
+    if(validUser == false) {
+      nameRegisterErrorIcon.classList.add('showRegisterError');
+      nameInput.style.border = '1px solid rgb(199, 31, 31)';
+    } else {
+      nameRegisterErrorIcon.classList.remove('showRegisterError');
+      nameInput.style.border = 'none';
+    }
+
+    if(validUsername == false) {
+      usernameRegisterErrorIcon.classList.add('showRegisterError');
+      usernameInput.style.border = '1px solid rgb(199, 31, 31)';
+    } else {
+      usernameRegisterErrorIcon.classList.remove('showRegisterError');
+      usernameInput.style.border = 'none';
+    }
+
+    if(validEmail == false) {
+      emailRegisterErrorIcon.classList.add('showRegisterError');
+      emailInput.style.border = '1px solid rgb(199, 31, 31)';
+    } else {
+      emailRegisterErrorIcon.classList.remove('showRegisterError');
+      emailInput.style.border = 'none';
+    }
+
+    if(validPassword == false) {
+      passwordInput.style.border = '1px solid rgb(199, 31, 31)';
+    } else {
+      passwordInput.style.border = 'none';
+    }
+
+    if(confirmPasswordInput.length <= 4 || validConfirmPassword == false) {
+      confirmPasswordInput.style.border = '1px solid rgb(199, 31, 31)';
+    } else {
+      confirmPasswordInput.style.border = 'none';
+    }
   }
 }
