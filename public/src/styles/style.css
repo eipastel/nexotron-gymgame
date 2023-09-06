@@ -91,3 +91,27 @@ input {
   cursor: pointer;
   right: 17%;
 }
+
+.loginError {
+  position: relative;
+}
+
+.loginErrorIcon {
+  position: absolute;
+  color: rgb(199, 31, 31);
+  opacity: .8;
+  top: 64%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  right: 17%;
+  display: none;
+}
+
+#msgError {
+  color: rgb(255, 70, 70);
+  font-size: 1.1rem;
+}
+
+.showLoginError {
+  display: block;
+}
