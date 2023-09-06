@@ -1,20 +1,20 @@
 @font-face {
   font-family: 'Uni Sans Heavy';
-  src: url(fonts/Uni\ Sans\ Heavy.otf);
+  src: url(../assets/fonts/Uni\ Sans\ Heavy.otf);
 }
 
 @font-face {
   font-family: 'Uni Sans Thin';
-  src: url(fonts/Uni\ Sans\ Thin.otf);
+  src: url(../assets/fonts/Uni\ Sans\ Thin.otf);
 }
 
 @font-face {
   font-family: 'Roboto';
-  src: url(fonts/Roboto-Light.ttf);
+  src: url(../assets/fonts/Roboto-Light.ttf);
 }
 
 html, body {
-  background-image: url(../imgs/nexotron-background.svg);
+  background-image: url(../assets/images/nexotron-background.svg);
 	height: 100vh;
 }
 

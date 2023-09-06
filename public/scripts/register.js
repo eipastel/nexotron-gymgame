@@ -2,7 +2,7 @@ window.onload = function() {
   const jwtToken = localStorage.getItem('jwtToken');
 
   if (jwtToken) {
-      window.location.href = 'http://localhost:3000/src/pages/main-page.html';
+      window.location.href = 'http://localhost:3000/pages/main-page.html';
   }
 };
 
@@ -165,7 +165,7 @@ function register(){
 
         // Definindo um tempo de X (nesse caso 1000 = 1 segundo) segundos para redirecionar para o index
         setTimeout(()=>{
-          window.location.href = '../../index.html'
+          window.location.href = '../index.html'
         }, 3000)
       }
       })

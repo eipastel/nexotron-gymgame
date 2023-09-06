@@ -13,11 +13,11 @@ app.use(bodyParser.json());
 app.use(express.static('public'));
 
 const db = mysql.createConnection({
-    host: 'containers-us-west-195.railway.app',
-    user: 'root',
-    password: '4jRtMH7nnFg7aEg8kWDY',
-    database: 'railway',
-    port: 5474
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASS,
+    database: process.env.DB_NAME,
+    port: process.env.DB_PORT
 });
 
 db.connect((err) => {

@@ -2,7 +2,7 @@ window.onload = function() {
   // Verifica se o token JWT está presente no local storage. Se estiver, redireciona para a página principal.
   const jwtToken = localStorage.getItem('jwtToken');
   if (jwtToken) {
-      window.location.href = 'http://localhost:3000/src/pages/main-page.html';
+      window.location.href = 'http://localhost:3000/pages/main-page.html';
   }
 };
 
@@ -65,7 +65,7 @@ function login() {
           
           // Se o login for bem-sucedido, armazena o token JWT e redireciona para a página principal
           localStorage.setItem('jwtToken', data.token);
-          window.location.href = 'src/pages/main-page.html';
+          window.location.href = 'pages/main-page.html';
       }
   })
   .catch(error => {
